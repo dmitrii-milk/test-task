@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 
 const createElem = () => {
     const items = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
         const item = {
           text: 'RandomText',
           num: `${i+1}`

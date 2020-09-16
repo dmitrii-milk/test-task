@@ -13,12 +13,52 @@ import {
 
 
 
-export default function SimpleModal() {
+export default function SimpleModal({selected}) {
 
-  const [selected, setSelected] = useState([1, 2, 3, 4]);
+   //Create Items
+   const elements = createItem(15, 'item');
 
-  //Create Items
-  const elements = createItem(5, 'item');
+
+  //CreateRef for buttons and listItems in modal
+
+  const revealRefs = useRef([]);
+  revealRefs.current = [];
+
+  const addToRefs = (el) => {
+
+    if(el && !revealRefs.current.includes(el)) {
+      revealRefs.current.push(el);
+    }
+
+    const buttons = [];
+    const listItems = [];
+
+    revealRefs.current.forEach(item => {
+      if(item.nodeName === 'BUTTON') {
+        buttons.push(item)
+      } else if (item.nodeName === 'DIV') {
+        listItems.push(item)
+      }
+    });
+
+    changeSelectedColor(buttons);
+    changeSelectedColor(listItems);
+  };
+
+//Change color for selected Elements
+  const changeSelectedColor = (elem) => {
+          selected.forEach(item => {  
+              elem.forEach((e) => {
+              if(item == +e.id) {
+                e.style.backgroundColor = 'red';
+              } else {
+                return
+              }
+              });
+          });
+  }
+
+  //scrollTo elements
 
   const refs = elements.map(() => React.createRef());
 
@@ -28,9 +68,6 @@ export default function SimpleModal() {
       block: "start",
     });
   };
-
-
-
 
   //Open Modal 
   const [open, setOpen] = React.useState(false);
@@ -48,7 +85,7 @@ export default function SimpleModal() {
     <Button onClick={handleOpen}> Open Modal </Button>
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Scroll to element</DialogTitle>
-      <DialogContent style={{ minHeight: "180px" }} >
+      <DialogContent style={{ minHeight: "80px" }}>
       {elements.map((el, index) => {
           return (
             <Button
@@ -57,6 +94,7 @@ export default function SimpleModal() {
               variant="contained"
               color="default"
               onClick={() => scrollTo(index)}
+              ref={addToRefs}
             >
               {index + 1}
             </Button>
@@ -67,8 +105,14 @@ export default function SimpleModal() {
        <List> 
        {elements.map((element, index) => {
             return (
-              <Grid ref={refs[index]} id={index+1} key={`element${index}`} item xs={12}>
-                <Paper style={{ width: "100%", padding: 8 }}>
+              <Grid 
+              ref={refs[index]}
+              key={`element${index}`} 
+              item xs={12}>
+                <Paper
+                   style={{ width: "100%", padding: 8 }}
+                   ref={addToRefs}
+                   id={index+1} >
                   {element}
                 </Paper>
               </Grid>
