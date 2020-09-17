@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Header from '../header'
 import Nav from '../nav';
 import FirstPage from '../firstPage';
 import SecondPage from '../secondPage';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 function App() {
 

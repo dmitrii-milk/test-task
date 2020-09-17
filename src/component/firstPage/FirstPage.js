@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useRef} from 'react';
-import createItem from '../../services/createItem';
+import React, {useRef} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Dialog,
   DialogTitle,
@@ -11,12 +11,29 @@ import {
   List
 } from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    minWidth: '35px',
+    padding: '0px'
+  }
+}));
+
 
 
 export default function SimpleModal({selected}) {
+  const classes = useStyles();
+
+  const createItems = (count, text = '') => {
+    const items = [];
+    for (let i = 0; i < count; i++) {
+        const item = <li key={`index ${i}`}>{text} {i+1}</li>;
+        items.push(item)
+    }
+    return items;
+}
 
    //Create Items
-   const elements = createItem(15, 'item');
+   const elements = createItems(50, 'item');
 
 
   //CreateRef for buttons and listItems in modal
@@ -49,7 +66,7 @@ export default function SimpleModal({selected}) {
   const changeSelectedColor = (elem) => {
           selected.forEach(item => {  
               elem.forEach((e) => {
-              if(item == +e.id) {
+              if(+item === +e.id) {
                 e.style.backgroundColor = 'red';
               } else {
                 return
@@ -82,13 +99,18 @@ export default function SimpleModal({selected}) {
 
   return (
     <>  
-    <Button onClick={handleOpen}> Open Modal </Button>
+    <Button 
+    variant="contained"
+    color="primary"
+    onClick={handleOpen}
+    > Open Modal </Button>
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Scroll to element</DialogTitle>
-      <DialogContent style={{ minHeight: "80px" }}>
+      <DialogContent style={{ minHeight: "100px" }}>
       {elements.map((el, index) => {
           return (
             <Button
+              className={classes.root}
               key={`button${index}`}
               id={index+1}
               variant="contained"

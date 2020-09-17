@@ -8,11 +8,11 @@ import {Link} from 'react-router-dom';
 
 const Nav = () => {
     return (
-        <Grid>  
+        <Grid  item xs={1}>  
              <Paper>
-                <MenuList>
+                <MenuList item xs={3}>
                     <Link to="/firstpage">
-                    <MenuItem>Страница 1</MenuItem>
+                    <MenuItem >Страница 1</MenuItem>
                     </Link>
                     <Link to="/secondpage">
                     <MenuItem>Страница 2 </MenuItem>
